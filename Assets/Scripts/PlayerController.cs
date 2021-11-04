@@ -49,15 +49,15 @@ public class PlayerController : MonoBehaviour
         {
             if (box.transform.position.x == newPos.x && box.transform.position.y == newPos.y)
             {
-                GameObject bx = GameObject.FindGameObjectWithTag("Block");
-                if (bx && bx.Move(direction))
-                {
-                    return false;
-                }
-                else
-                {
+                //GameObject bx = GameObject.FindGameObjectWithTag("Block");
+                //if (bx && bx.Move(direction))
+                //{
+                //    return false;
+                //}
+                //else
+                //{
                     return true;
-                }
+                //}
             }
         }
         return false;
