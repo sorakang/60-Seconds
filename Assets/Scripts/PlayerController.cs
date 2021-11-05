@@ -4,64 +4,154 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    // Avoids ability to move diagonally
-    public bool Move(Vector2 direction)
+    private float speed = 4f;
+    public float moveSpeed = 4f;
+
+    private Rigidbody2D rb;
+
+    private Vector2 target;
+
+    public LayerMask solidLayers;
+    private RaycastHit2D[] solidHits = new RaycastHit2D[4];
+
+    private Vector2[] directions = new Vector2[4]
     {
-        // Sets coordinates to 0
-        if (Mathf.Abs(direction.x) < 0.5)
-        {
-            direction.x = 0;
-        }
-        else
-        {
-            direction.y = 0;
-        }
+        Vector2.up, Vector2.down, Vector2.left, Vector2.right
+    };
 
-        // Makes either x or y = 1
-        direction.Normalize();
+    private Directions facing = Directions.Down;
 
-        if (Blocked(transform.position, direction))
+    private Coroutine moving;
+
+    private void Awake()
+    {
+        rb = GetComponent<Rigidbody2D>();
+
+        speed = moveSpeed;
+        target = rb.position;
+    }
+
+    private void Update()
+    {
+        if (Input.GetKey(KeyCode.W))
         {
-            return false;
+            Move(0);
         }
-        else
+        else if (Input.GetKey(KeyCode.S))
         {
-            transform.Translate(direction);
-            return true;
+            Move(1);
+        }
+        else if (Input.GetKey(KeyCode.A))
+        {
+            Move(2);
+        }
+        else if (Input.GetKey(KeyCode.D))
+        {
+            Move(3);
         }
     }
 
-    bool Blocked(Vector3 position, Vector2 direction)
+    private void FixedUpdate()
     {
-        Vector2 newPos = new Vector2(position.x, position.y) + direction;
-
-        GameObject[] walls = GameObject.FindGameObjectsWithTag("Wall");
-        foreach (var wall in walls)
+        // solid
+        for (int i = 0; i < 4; i++)
         {
-            if (wall.transform.position.x == newPos.x && wall.transform.position.y == newPos.y)
-            {
-                return true;
-            }
+            solidHits[i] = Physics2D.Raycast(rb.position, directions[i], 0.8f, solidLayers);
         }
 
-        GameObject[] boxes = GameObject.FindGameObjectsWithTag("Block");
-        foreach (var box in boxes)
+        // move
+        if (rb.position != target)
         {
-            if (box.transform.position.x == newPos.x && box.transform.position.y == newPos.y)
-            {
-                //GameObject bx = GameObject.FindGameObjectWithTag("Block");
-                //if (bx && bx.Move(direction))
-                //{
-                //    return false;
-                //}
-                //else
-                //{
-                    return true;
-                //}
-            }
+            rb.position = Vector2.MoveTowards(rb.position, target, speed * Time.fixedDeltaTime);
         }
-        return false;
     }
+
+    public void Move(int direction)
+    {
+        if (moving != null)
+        {
+            return;
+        }
+
+        facing = (Directions)direction;
+
+        if (solidHits[(int)facing].collider == null)
+        {
+            moving = StartCoroutine(Moving());
+        }
+    }
+
+    private IEnumerator Moving()
+    {
+        while (solidHits[(int)facing].collider == null)
+        {
+            target += directions[(int)facing];
+
+            yield return new WaitUntil(() => rb.position == target);
+        }
+
+        moving = null;
+    }
+
+    //// Avoids ability to move diagonally
+    //public bool Move(Vector2 direction)
+    //{
+    //    // Sets coordinates to 0
+    //    if (Mathf.Abs(direction.x) < 0.5)
+    //    {
+    //        direction.x = 0;
+    //    }
+    //    else
+    //    {
+    //        direction.y = 0;
+    //    }
+
+    //    // Makes either x or y = 1
+    //    direction.Normalize();
+
+    //    if (Blocked(transform.position, direction))
+    //    {
+    //        return false;
+    //    }
+    //    else
+    //    {
+    //        transform.Translate(direction);
+    //        return true;
+    //    }
+    //}
+
+    //bool Blocked(Vector3 position, Vector2 direction)
+    //{
+    //    Vector2 newPos = new Vector2(position.x, position.y) + direction;
+
+    //    GameObject[] walls = GameObject.FindGameObjectsWithTag("Wall");
+    //    foreach (var wall in walls)
+    //    {
+    //        if (wall.transform.position.x == newPos.x && wall.transform.position.y == newPos.y)
+    //        {
+    //            return true;
+    //        }
+    //    }
+
+    //    GameObject[] boxes = GameObject.FindGameObjectsWithTag("Block");
+    //    foreach (var box in boxes)
+    //    {
+    //        if (box.transform.position.x == newPos.x && box.transform.position.y == newPos.y)
+    //        {
+    //            //GameObject bx = GameObject.FindGameObjectWithTag("Block");
+    //            //if (bx && bx.Move(direction))
+    //            //{
+    //            //    return false;
+    //            //}
+    //            //else
+    //            //{
+    //                return true;
+    //            //}
+    //        }
+    //    }
+    //    return false;
+    //}
+}
 
     //Rigidbody2D body;
 
@@ -112,4 +202,3 @@ public class PlayerController : MonoBehaviour
     //{
     //    rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
     //}
-}
