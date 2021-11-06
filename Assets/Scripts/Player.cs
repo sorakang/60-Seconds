@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Player : MonoBehaviour {
 
+    public static bool isMoved = false;
+
     public bool Move(Vector2 direction) {
         Debug.Log("Player is moving");
         if (Mathf.Abs(direction.x) < 0.8) {
@@ -32,21 +34,24 @@ public class Player : MonoBehaviour {
                 return true;
             }
         }
+
         GameObject[] boxes = GameObject.FindGameObjectsWithTag("Box");
-        
         foreach (var box in boxes) {
             if (box.transform.position.x == newPos.x && box.transform.position.y == newPos.y) {
                 Box bx = box.GetComponent<Box>();
                 if(bx && bx.Move(direction)) {
                     Debug.Log("BoxTrue");
+                    isMoved = true;
                     return false;
                 }
                 else {
                     Debug.Log("BoxFalse");
+                    isMoved = true;
                     return true;
                 }
             }
         }
+        isMoved = false;
         return false;
     }
 }

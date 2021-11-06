@@ -13,16 +13,16 @@ public class Box : MonoBehaviour {
         boxCol = GetComponent<BoxCollider2D>();
     }
 
+    /// <summary>
+    /// try to make 
+    /// onTriggerEnter2D (Collider colission)
+    /// {
+    ///     get direction of force on collider and transform collider position to move towards said direction
+    ///     direction.Normalize();
+    ///     to get one unit
+    /// }
+    /// </summary>
     public bool Move(Vector2 direction) {
-        if (Mathf.Abs(direction.x) < 0.8)
-        {
-            direction.x = 0;
-        }
-        else
-        {
-            direction.y = 0;
-        }
-        direction.Normalize();
         if (BoxBlocked(transform.position, direction)) {
             return false;
         }
