@@ -4,24 +4,27 @@ using UnityEngine;
 
 public class ParentBlock : MonoBehaviour
 {
-    public GameObject firstChild;
-    public GameObject secondChild;
-    public GameObject thirdChild;
-    public GameObject fourthChild;
+    public GameObject target;
+    private Vector3 offset;
+
+    //public List<GameObject> PlayerPieces = new List<GameObject>();
+    //void UpdatePlayerPieces()
+    //{
+    //    foreach (GameObject piece in PlayerPieces)
+    //    {
+    //        Vector3 offset = (this.transform.position - piece.transform.position);
+    //        piece.transform.position = piece.transform.position + offset;
+    //    }
+    //}
 
 
-    // Start is called before the first frame update
     void Start()
     {
-        
+        offset = target.transform.position - this.transform.position;
     }
-
-    // Update is called once per frame
     void Update()
     {
-        //if()
-            firstChild.transform.position = secondChild.transform.position + new Vector3(1, 0, 0);
-            secondChild.transform.position = firstChild.transform.position + new Vector3(-1, 0, 0);
-        //thirdChild.transform.position = secondChild.transform.position + new Vector3(0, 0, 0);
+        //this.transform.position = target.transform.position + offset;
+        transform.localPosition = new Vector3(0, -1, 0) + offset;
     }
 }
