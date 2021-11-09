@@ -91,28 +91,38 @@ public class PlayerControl : MonoBehaviour
     //    input.Normalize();
     //}
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        Debug.Log("Collision");
-    }
-
     private void OnTriggerStay2D(Collider2D collider)
     {
         if (collider.gameObject.CompareTag("MoveableObject"))
         {
+            //collider.gameObject.GetComponent<PolygonCollider2D>().isTrigger = false;
             Debug.Log("Moveable Object");
 
             if (Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.Space))
+            {
+                collider.gameObject.GetComponent<PolygonCollider2D>().isTrigger = true;
                 collider.transform.Translate(0.0f, 1.0f, 0.0f);
+            }
 
             if (Input.GetKey(KeyCode.A) && Input.GetKey(KeyCode.Space))
+            {
+                collider.gameObject.GetComponent<PolygonCollider2D>().isTrigger = true;
                 collider.transform.Translate(-1.0f, 0.0f, 0.0f);
+            }
 
             if (Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.Space))
+            {
+                collider.gameObject.GetComponent<PolygonCollider2D>().isTrigger = true;
                 collider.transform.Translate(0.0f, -1.0f, 0.0f);
+            }
 
             if (Input.GetKey(KeyCode.D) && Input.GetKey(KeyCode.Space))
+            {
+                collider.gameObject.GetComponent<PolygonCollider2D>().isTrigger = true;    
                 collider.transform.Translate(1.0f, 0.0f, 0.0f);
+            }
+            //else
+            //    collider.gameObject.GetComponent<PolygonCollider2D>().isTrigger = false;
 
 
 
@@ -124,6 +134,7 @@ public class PlayerControl : MonoBehaviour
             //collider.velocity = pushDir * _speed;
         }
     }
+
 
 }
 
