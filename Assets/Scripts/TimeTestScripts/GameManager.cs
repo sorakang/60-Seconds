@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour {
     //public LevelBuilder levelBuilder;
     //public GameObject nextButton;
     private bool readyForInput;
-    public Player player;
+    public PlayerControl player;
 
     //void Start() {
     //    nextButton.SetActive(false);
@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour {
         if (input.sqrMagnitude > 0.5) {
             if (readyForInput) {
                 readyForInput = false;
-                player.Move(input);
+                //player.Move(input);
                 //nextButton.SetActive(IsLevelComplete());
             }
         }
