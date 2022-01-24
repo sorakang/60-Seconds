@@ -100,25 +100,25 @@ public class PlayerControl : MonoBehaviour
 
             if (Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.Space))
             {
-                collider.gameObject.GetComponent<PolygonCollider2D>().isTrigger = true;
+                //collider.gameObject.GetComponent<PolygonCollider2D>().isTrigger = true;
                 collider.transform.Translate(0.0f, 1.0f, 0.0f);
             }
 
             if (Input.GetKey(KeyCode.A) && Input.GetKey(KeyCode.Space))
             {
-                collider.gameObject.GetComponent<PolygonCollider2D>().isTrigger = true;
+                //collider.gameObject.GetComponent<PolygonCollider2D>().isTrigger = true;
                 collider.transform.Translate(-1.0f, 0.0f, 0.0f);
             }
 
             if (Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.Space))
             {
-                collider.gameObject.GetComponent<PolygonCollider2D>().isTrigger = true;
+                //collider.gameObject.GetComponent<PolygonCollider2D>().isTrigger = true;
                 collider.transform.Translate(0.0f, -1.0f, 0.0f);
             }
 
             if (Input.GetKey(KeyCode.D) && Input.GetKey(KeyCode.Space))
             {
-                collider.gameObject.GetComponent<PolygonCollider2D>().isTrigger = true;    
+                //collider.gameObject.GetComponent<PolygonCollider2D>().isTrigger = true;    
                 collider.transform.Translate(1.0f, 0.0f, 0.0f);
             }
             //else
